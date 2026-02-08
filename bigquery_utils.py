@@ -15,13 +15,21 @@ def get_bigquery_client():
     """Get or create BigQuery client (lazy initialization)"""
     global _client
     if _client is None:
-            try:
-                _client = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-)
-                # _client = bigquery.Client.from_service_account_json(credentials_path)
-            except Exception as e:
-                raise Exception(f"Failed to initialize BigQuery client from credentials file: {str(e)}")
+        try:
+            credentials = service_account.Credentials.from_service_account_info(
+                st.secrets["gcp_service_account"]
+            )
+
+            _client = bigquery.Client(
+                credentials=credentials,
+                project=credentials.project_id,
+            )
+
+        except Exception as e:
+            raise Exception(
+                f"Failed to initialize BigQuery client: {str(e)}"
+            )
+
     return _client
 
 
