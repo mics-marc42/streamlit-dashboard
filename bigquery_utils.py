@@ -6,6 +6,7 @@ from google.oauth2 import service_account
 import pandas as pd
 import os
 from typing import Optional, Dict, Any
+import streamlit as st
 
 # Lazy initialization of BigQuery client
 _client = None
