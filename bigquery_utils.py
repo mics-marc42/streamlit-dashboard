@@ -20,7 +20,7 @@ def get_bigquery_client():
                 st.secrets["gcp_service_account"]
             )
 
-            _client = bigquery.Client(
+            test = bigquery.Client(
                 credentials=credentials,
                 project=credentials.project_id,
             )
@@ -30,7 +30,7 @@ def get_bigquery_client():
                 f"Failed to initialize BigQuery client: {str(e)}"
             )
 
-    return _client
+    return test
 
 
 def query_bigquery(query):
