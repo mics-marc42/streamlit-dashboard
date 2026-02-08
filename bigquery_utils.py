@@ -14,16 +14,11 @@ def get_bigquery_client():
     """Get or create BigQuery client (lazy initialization)"""
     global _client
     if _client is None:
-        credentials_path = 'C:/Users/micho/Downloads/opareviews-1576146375815-159c8a4a77a4.json'
-        if not os.path.exists(credentials_path):
-            # Try to use default credentials if file doesn't exist
             try:
-                _client = bigquery.Client()
-            except Exception as e:
-                raise Exception(f"Failed to initialize BigQuery client. Credentials file not found at {credentials_path} and default credentials failed: {str(e)}")
-        else:
-            try:
-                _client = bigquery.Client.from_service_account_json(credentials_path)
+                _client = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+)
+                # _client = bigquery.Client.from_service_account_json(credentials_path)
             except Exception as e:
                 raise Exception(f"Failed to initialize BigQuery client from credentials file: {str(e)}")
     return _client
