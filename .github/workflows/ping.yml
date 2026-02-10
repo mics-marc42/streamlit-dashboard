@@ -1,7 +1,7 @@
 name: Ping App
 on:
   schedule:
-    - cron: '0 */6 * * *' # Pings every 6 hours
+    - cron: '0 */2 * * *' # Pings every 6 hours
 jobs:
   ping:
     runs-on: ubuntu-latest
