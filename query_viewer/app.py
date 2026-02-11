@@ -82,18 +82,18 @@ if not st.session_state.df.empty:
     col1, col2 = st.columns(2)
     
     with col1:
-        product_platform_filter = st.text_input("Filter by Product Platform (substring):", value="")
+        unique_platforms = sorted(st.session_state.df['product_platform'].dropna().unique().tolist())
+        platform_options = ["All"] + unique_platforms
+        product_platform_filter = st.selectbox("Filter by Product Platform:", platform_options)
     
     with col2:
         project_name_filter = st.text_input("Filter by Project Name (substring):", value="")
     
     filtered_df = st.session_state.df.copy()
     
-    if product_platform_filter:
+    if product_platform_filter and product_platform_filter != "All":
         filtered_df = filtered_df[
-            filtered_df['product_platform'].astype(str).str.contains(
-                product_platform_filter, case=False, na=False
-            )
+            filtered_df['product_platform'] == product_platform_filter
         ]
     
     if project_name_filter:
