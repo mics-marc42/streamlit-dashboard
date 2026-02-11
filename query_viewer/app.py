@@ -209,7 +209,7 @@ final_data as(
     union all(
       SELECT agent_name,
         content_type, 
-        CONCAT('Total : ', pop_rated, '\\n', 'APPROVED : ', ROUND(approved/pop_rated*100, 0),'%%','\\n' 'REJECTED', ' : ', ROUND(rejected/pop_rated*100, 0), '%%') as breakup
+        CONCAT('Total : ', pop_rated, '\\n', 'APPROVED : ', ROUND(approved/pop_rated*100, 0),'%%', '\\n', 'REJECTED : ', ROUND(rejected/pop_rated*100, 0), '%%') as breakup
       FROM (
         SELECT name as agent_name, 
           'POP' as content_type,
