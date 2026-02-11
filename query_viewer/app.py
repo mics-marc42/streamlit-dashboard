@@ -151,7 +151,7 @@ SET pivot_cols = (
   )
 );
 EXECUTE IMMEDIATE FORMAT(
-''' WITH subs as (
+/''' WITH subs as (
   SELECT s.id as subm_id, 
     collaboration_id, 
     deliverable_id, 
