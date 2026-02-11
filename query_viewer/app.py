@@ -61,8 +61,8 @@ SELECT product_id,
   SUM(new_user_seats) as new_user_seats,
   SUM(participation_count) as total_acceptances,
   SUM(quantity) as total_quantity,
-  STRING_AGG(Concat(cam_id,' - ', bundle_id), '\n') as campaigns,
-  STRING_AGG(project_name, '\n') as project_name
+  STRING_AGG(Concat(cam_id,' - ', bundle_id), '\\n') as campaigns,
+  STRING_AGG(project_name, '\\n') as project_name
 FROM final_data
 GROUP BY 1, 2
 HAVING daily_limit - accepted_yesterday > 0
