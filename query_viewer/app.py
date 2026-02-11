@@ -129,6 +129,10 @@ with tab1:
                 white-space: pre-wrap;
                 word-wrap: break-word;
             }
+            .fullwidth-table th {
+                background-color: #3a3a3a;
+                font-weight: 600;
+            }
             </style>
             """,
             unsafe_allow_html=True,
@@ -310,6 +314,10 @@ with tab2:
                 vertical-align: top;
                 white-space: pre-wrap;
                 word-wrap: break-word;
+            }
+            .fullwidth-table th {
+                background-color: #3a3a3a;
+                font-weight: 600;
             }
             </style>
             """,
