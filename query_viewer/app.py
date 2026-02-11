@@ -268,8 +268,8 @@ with tab2:
                     for ct in ct_df['content_type'].dropna().unique():
                         ct_str = str(ct)
                         alias = re.sub(r'[^a-zA-Z0-9]', '_', ct_str)
-                        pivot_parts.append(f\"'{ct_str}' AS {alias}\")
-                    pivot_cols_sql = \", \".join(pivot_parts)
+                        pivot_parts.append(f"'{ct_str}' AS {alias}")
+                    pivot_cols_sql = ", ".join(pivot_parts)
 
                     final_query = base_query.format(pivot_cols=pivot_cols_sql)
                     st.session_state.df2 = query_bigquery(final_query)
