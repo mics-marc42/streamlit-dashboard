@@ -274,9 +274,9 @@ with tab2:
                     final_query = base_query.format(pivot_cols=pivot_cols_sql)
                     st.session_state.df2 = query_bigquery(final_query)
 
-                st.success(f\"Query executed successfully! Found {len(st.session_state.df2)} rows.\")
+                st.success(f"Query executed successfully! Found {len(st.session_state.df2)} rows.")
         except Exception as e:
-            st.error(f\"Error executing query: {str(e)}\")
+            st.error(f"Error executing query: {str(e)}")
             st.session_state.df2 = pd.DataFrame()
     
     if not st.session_state.df2.empty:
