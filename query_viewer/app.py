@@ -127,7 +127,7 @@ with tab1:
         st.dataframe(filtered_df, use_container_width=True)
 
 with tab2:
-    sample_query = f"""
+    sample_query = """
     DECLARE pivot_cols STRING;
 SET pivot_cols = (
   SELECT STRING_AGG(
