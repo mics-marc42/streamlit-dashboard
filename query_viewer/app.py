@@ -127,7 +127,7 @@ with tab1:
         st.dataframe(filtered_df, use_container_width=True)
 
 with tab2:
-    sample_query = '''
+    sample_query = """
     DECLARE pivot_cols STRING;
 SET pivot_cols = (
   SELECT STRING_AGG(
@@ -151,7 +151,7 @@ SET pivot_cols = (
   )
 );
 EXECUTE IMMEDIATE FORMAT(
-""" WITH subs as (
+''' WITH subs as (
   SELECT s.id as subm_id, 
     collaboration_id, 
     deliverable_id, 
@@ -170,7 +170,7 @@ pop as (
   SELECT c.id as collaboration_id,
     pop_props, 
     pop_review_props, 
-    pop_review_stage, 
+    pop_review_stage,   
     CAST(JSON_VALUE(pop_review_props, '$.agent_id') as INT64) as agent_id
   FROM opa_hybrid.collaboration c
   LEFT JOIN opa_hybrid.campaign cam
@@ -229,9 +229,9 @@ SELECT *
     FOR content_type IN (%s)
   )
   ORDER BY agent_name
-""", pivot_cols
+''', pivot_cols
 )
-'''
+"""
     
     if 'df2' not in st.session_state:
         try:
