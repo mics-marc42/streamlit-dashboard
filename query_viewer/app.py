@@ -151,7 +151,7 @@ SET pivot_cols = (
   )
 );
 EXECUTE IMMEDIATE FORMAT(
-''' WITH subs as (
+' WITH subs as (
   SELECT s.id as subm_id, 
     collaboration_id, 
     deliverable_id, 
@@ -229,7 +229,7 @@ SELECT *
     FOR content_type IN (%s)
   )
   ORDER BY agent_name
-''', pivot_cols
+', pivot_cols
 )
 """
     
