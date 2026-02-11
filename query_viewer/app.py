@@ -293,9 +293,22 @@ with tab2:
             st.session_state.df2 = pd.DataFrame()
     
     if not st.session_state.df2.empty:
-        filtered_df2 = st.session_state.df2.reset_index(drop=True)
+        st.subheader("Filters")
+        
+        unique_agents = sorted(st.session_state.df2['agent_name'].dropna().unique().tolist())
+        agent_options = ["All"] + unique_agents
+        agent_name_filter = st.selectbox("Filter by Agent Name:", agent_options)
+        
+        filtered_df2 = st.session_state.df2.copy()
+        
+        if agent_name_filter and agent_name_filter != "All":
+            filtered_df2 = filtered_df2[
+                filtered_df2['agent_name'] == agent_name_filter
+            ]
+        
+        filtered_df2 = filtered_df2.reset_index(drop=True)
 
-        st.write(f"Showing {len(filtered_df2)} rows")
+        st.write(f"Showing {len(filtered_df2)} of {len(st.session_state.df2)} rows")
 
         # Render with HTML so that line breaks are respected reliably
         html_table = filtered_df2.to_html(escape=False).replace("\\n", "<br>")
