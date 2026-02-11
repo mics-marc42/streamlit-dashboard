@@ -115,7 +115,7 @@ with tab1:
         <style>
         div[data-testid="stDataFrame"] table td,
         div[data-testid="stDataFrame"] table th {
-            white-space: normal !important;
+            white-space: pre-wrap !important;  /* preserve newlines and wrap */
             word-wrap: break-word !important;
             overflow-wrap: break-word !important;
         }
@@ -192,7 +192,7 @@ with tab2:
           CONCAT(
             'Total : ',
             submissions_rated,
-            '\\\n',
+            '\\n',
             'APPROVED : ',
             ROUND(approved / submissions_rated * 100, 0),
             '%',
