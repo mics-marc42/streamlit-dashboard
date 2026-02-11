@@ -68,10 +68,40 @@ GROUP BY 1, 2
 HAVING daily_limit - accepted_yesterday > 0
 """
 
-try:
-    with st.spinner("Executing query..."):
-        df = query_bigquery(query)
-        st.success(f"Query executed successfully! Found {len(df)} rows.")
-        st.dataframe(df, use_container_width=True)
-except Exception as e:
-    st.error(f"Error executing query: {str(e)}")
+if 'df' not in st.session_state:
+    try:
+        with st.spinner("Executing query..."):
+            st.session_state.df = query_bigquery(query)
+            st.success(f"Query executed successfully! Found {len(st.session_state.df)} rows.")
+    except Exception as e:
+        st.error(f"Error executing query: {str(e)}")
+        st.session_state.df = pd.DataFrame()
+
+if not st.session_state.df.empty:
+    st.subheader("Filters")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        product_platform_filter = st.text_input("Filter by Product Platform (substring):", value="")
+    
+    with col2:
+        project_name_filter = st.text_input("Filter by Project Name (substring):", value="")
+    
+    filtered_df = st.session_state.df.copy()
+    
+    if product_platform_filter:
+        filtered_df = filtered_df[
+            filtered_df['product_platform'].astype(str).str.contains(
+                product_platform_filter, case=False, na=False
+            )
+        ]
+    
+    if project_name_filter:
+        filtered_df = filtered_df[
+            filtered_df['project_name'].astype(str).str.contains(
+                project_name_filter, case=False, na=False
+            )
+        ]
+    
+    st.write(f"Showing {len(filtered_df)} of {len(st.session_state.df)} rows")
+    st.dataframe(filtered_df, use_container_width=True)
