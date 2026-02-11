@@ -155,6 +155,7 @@ EXECUTE IMMEDIATE FORMAT(
 '''
 WITH subs as (
   SELECT s.id as subm_id, 
+  
     collaboration_id, 
     deliverable_id, 
     s.created_at as subm_date,  
@@ -177,7 +178,7 @@ pop as (
   FROM opa_hybrid.collaboration c
   LEFT JOIN opa_hybrid.campaign cam
   ON c.campaign_id = cam.id
-  WHERE platform IN ("product_trials", 'instagram_and_product_trials')
+  WHERE platform IN ('product_trials', 'instagram_and_product_trials')
   AND pop_review_stage IN ('APPROVED', 'REJECTED')
   AND DATE(JSON_VALUE(pop_review_props, '$.created_at')) = CURRENT_DATE() -1
 ), 
