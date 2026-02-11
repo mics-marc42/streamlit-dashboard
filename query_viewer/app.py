@@ -103,5 +103,8 @@ if not st.session_state.df.empty:
             )
         ]
     
+    filtered_df = filtered_df.copy()
+    filtered_df.insert(0, 'S.No.', range(1, len(filtered_df) + 1))
+    
     st.write(f"Showing {len(filtered_df)} of {len(st.session_state.df)} rows")
     st.dataframe(filtered_df, use_container_width=True)
