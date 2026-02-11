@@ -143,7 +143,7 @@ with tab2:
     """
 
     # 2) Base query template where {pivot_cols} will be filled from Python
-    base_query = f"""
+    base_query = """
     WITH subs AS (
       SELECT
         s.id AS subm_id,
