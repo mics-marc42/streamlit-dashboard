@@ -117,10 +117,12 @@ with tab1:
         st.markdown(
             """
             <style>
-            table, th, td {
+            .fullwidth-table table {
+                width: 100%;
                 border-collapse: collapse;
             }
-            th, td {
+            .fullwidth-table th,
+            .fullwidth-table td {
                 padding: 0.25rem 0.75rem;
                 text-align: left;
                 vertical-align: top;
@@ -132,7 +134,7 @@ with tab1:
             unsafe_allow_html=True,
         )
 
-        st.markdown(html_table, unsafe_allow_html=True)
+        st.markdown(f'<div class="fullwidth-table">{html_table}</div>', unsafe_allow_html=True)
 
 with tab2:
     # 1) Simple query to get distinct content types (plus POP)
@@ -297,10 +299,12 @@ with tab2:
         st.markdown(
             """
             <style>
-            table, th, td {
+            .fullwidth-table table {
+                width: 100%;
                 border-collapse: collapse;
             }
-            th, td {
+            .fullwidth-table th,
+            .fullwidth-table td {
                 padding: 0.25rem 0.75rem;
                 text-align: left;
                 vertical-align: top;
@@ -312,4 +316,4 @@ with tab2:
             unsafe_allow_html=True,
         )
 
-        st.markdown(html_table, unsafe_allow_html=True)
+        st.markdown(f'<div class="fullwidth-table">{html_table}</div>', unsafe_allow_html=True)
