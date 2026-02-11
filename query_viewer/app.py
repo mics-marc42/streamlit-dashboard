@@ -143,7 +143,7 @@ with tab2:
     """
 
     # 2) Base query template where {pivot_cols} will be filled from Python
-    base_query = r"""
+    base_query = """
     WITH subs AS (
       SELECT
         s.id AS subm_id,
@@ -192,11 +192,11 @@ with tab2:
           CONCAT(
             'Total : ',
             submissions_rated,
-            '\n',
+            CHR(10),
             'APPROVED : ',
             ROUND(approved / submissions_rated * 100, 0),
             '%',
-            '\n',
+            CHR(10),
             'REJECTED : ',
             ROUND(rejected / submissions_rated * 100, 0),
             '%'
@@ -221,11 +221,11 @@ with tab2:
           CONCAT(
             'Total : ',
             pop_rated,
-            '\n',
+            CHR(10),
             'APPROVED : ',
             ROUND(approved / pop_rated * 100, 0),
             '%',
-            '\n',
+            CHR(10),
             'REJECTED : ',
             ROUND(rejected / pop_rated * 100, 0),
             '%'
@@ -288,7 +288,7 @@ with tab2:
         <style>
         div[data-testid="stDataFrame"] table td,
         div[data-testid="stDataFrame"] table th {
-            white-space: normal !important;
+            white-space: pre-wrap !important;  /* preserve newlines and wrap */
             word-wrap: break-word !important;
             overflow-wrap: break-word !important;
         }
