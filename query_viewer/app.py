@@ -135,7 +135,7 @@ SET pivot_cols = (
       content_type,
       REGEXP_REPLACE(content_type, r'[^a-zA-Z0-9]', '_')
     ),
-    ", "
+    ', '
   )
   FROM (select * FROM (
     SELECT DISTINCT content_type
@@ -146,7 +146,7 @@ SET pivot_cols = (
     AND DATE(JSON_VALUE(review_props, '$.created_at')) = CURRENT_DATE() -1
   )
   UNION ALL (
-    select "POP" as content_type
+    select 'POP' as content_type
   )
   )
 );
@@ -233,7 +233,7 @@ SELECT *
   ORDER BY agent_name
 ''', pivot_cols
 )
-    """
+"""
     
     if 'df2' not in st.session_state:
         try:
