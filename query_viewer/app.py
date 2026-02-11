@@ -7,7 +7,7 @@ st.set_page_config(page_title="Query Viewer", layout="wide")
 
 st.title("BigQuery Query Viewer")
 
-tab1, tab2 = st.tabs(["Tab 1", "Tab 2"])
+tab1, tab2 = st.tabs(["PT order tracker", "Agent efficiency tracker"])
 
 query = """
 With campaign as (
