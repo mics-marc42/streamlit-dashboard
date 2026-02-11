@@ -106,4 +106,19 @@ if not st.session_state.df.empty:
     filtered_df = filtered_df.reset_index(drop=True)
     
     st.write(f"Showing {len(filtered_df)} of {len(st.session_state.df)} rows")
+    
+    st.markdown("""
+    <style>
+    div[data-testid="stDataFrame"] table td,
+    div[data-testid="stDataFrame"] table th {
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    div[data-testid="stDataFrame"] table {
+        table-layout: auto !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.dataframe(filtered_df, use_container_width=True)
