@@ -281,21 +281,28 @@ with tab2:
     
     if not st.session_state.df2.empty:
         filtered_df2 = st.session_state.df2.reset_index(drop=True)
-        
+
         st.write(f"Showing {len(filtered_df2)} rows")
-        
-        st.markdown("""
-        <style>
-        div[data-testid="stDataFrame"] table td,
-        div[data-testid="stDataFrame"] table th {
-            white-space: pre-wrap !important;  /* preserve newlines and wrap */
-            word-wrap: break-word !important;
-            overflow-wrap: break-word !important;
-        }
-        div[data-testid="stDataFrame"] table {
-            table-layout: auto !important;
-        }
-        </style>
-        """, unsafe_allow_html=True)
-        
-        st.dataframe(filtered_df2, use_container_width=True)
+
+        # Render with HTML so that line breaks are respected reliably
+        html_table = filtered_df2.to_html(escape=False).replace("\\n", "<br>")
+
+        st.markdown(
+            """
+            <style>
+            table, th, td {
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 0.25rem 0.5rem;
+                text-align: left;
+                vertical-align: top;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        st.markdown(html_table, unsafe_allow_html=True)
