@@ -192,11 +192,11 @@ with tab2:
           CONCAT(
             'Total : ',
             submissions_rated,
-            ' \\n',
+            ' \n',
             'APPROVED : ',
             ROUND(approved / submissions_rated * 100, 0),
             '%',
-            ' \\n',
+            ' \n',
             'REJECTED : ',
             ROUND(rejected / submissions_rated * 100, 0),
             '%'
@@ -221,11 +221,11 @@ with tab2:
           CONCAT(
             'Total : ',
             pop_rated,
-            ' \\n',
+            ' \n',
             'APPROVED : ',
             ROUND(approved / pop_rated * 100, 0),
             '%',
-            ' \\n',
+            ' \n',
             'REJECTED : ',
             ROUND(rejected / pop_rated * 100, 0),
             '%'
