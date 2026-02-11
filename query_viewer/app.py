@@ -7,6 +7,18 @@ st.set_page_config(page_title="Query Viewer", layout="wide")
 
 st.title("BigQuery Query Viewer")
 
+st.markdown("""
+<style>
+.stTabs [data-baseweb="tab"] {
+    font-size: 2em !important;
+    font-weight: 600 !important;
+}
+.stTabs [data-baseweb="tab-list"] button {
+    font-size: 2em !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 tab1, tab2 = st.tabs(["PT order tracker", "Agent efficiency tracker"])
 
 query = """
