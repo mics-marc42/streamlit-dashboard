@@ -112,7 +112,9 @@ with tab1:
             product_platform_filter = st.selectbox("Filter by Product Platform:", platform_options)
         
         with col2:
-            project_name_filter = st.text_input("Filter by Project Name (substring):", value="")
+            unique_project_names = sorted(st.session_state.df['project_name'].dropna().unique().tolist())
+            project_options = ["All"] + unique_project_names
+            project_name_filter = st.selectbox("Filter by Project Name:", project_options)
         
         filtered_df = st.session_state.df.copy()
         
@@ -121,11 +123,9 @@ with tab1:
                 filtered_df['product_platform'] == product_platform_filter
             ]
         
-        if project_name_filter:
+        if project_name_filter and project_name_filter != "All":
             filtered_df = filtered_df[
-                filtered_df['project_name'].astype(str).str.contains(
-                    project_name_filter, case=False, na=False
-                )
+                filtered_df['project_name'] == project_name_filter
             ]
         
         filtered_df = filtered_df.reset_index(drop=True)
