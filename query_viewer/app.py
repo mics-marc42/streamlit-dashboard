@@ -84,6 +84,7 @@ HAVING (
 daily_limit - accepted_yesterday > 0
 OR daily_limit = 0
 )
+order by 3 asc
 """
 
 with tab1:
