@@ -129,6 +129,11 @@ with tab1:
         st.markdown(
             """
             <style>
+            .fullwidth-table {
+                max-height: 70vh;
+                overflow-y: auto;
+                overflow-x: auto;
+            }
             .fullwidth-table table {
                 width: 100%;
                 border-collapse: collapse;
@@ -144,6 +149,9 @@ with tab1:
             .fullwidth-table th {
                 background-color: #3a3a3a;
                 font-weight: 600;
+                position: sticky;
+                top: 0;
+                z-index: 10;
             }
             </style>
             """,
@@ -328,6 +336,11 @@ with tab2:
         st.markdown(
             """
             <style>
+            .fullwidth-table {
+                max-height: 70vh;
+                overflow-y: auto;
+                overflow-x: auto;
+            }
             .fullwidth-table table {
                 width: 100%;
                 border-collapse: collapse;
@@ -343,6 +356,9 @@ with tab2:
             .fullwidth-table th {
                 background-color: #3a3a3a;
                 font-weight: 600;
+                position: sticky;
+                top: 0;
+                z-index: 10;
             }
             </style>
             """,
