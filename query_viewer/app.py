@@ -134,6 +134,16 @@ with tab1:
         if 'daily_limit' in filtered_df.columns:
             filtered_df = filtered_df.sort_values('daily_limit', ascending=True).reset_index(drop=True)
 
+        # Convert product_id to hyperlinks using buying_url
+        if 'product_id' in filtered_df.columns and 'buying_url' in filtered_df.columns:
+            filtered_df = filtered_df.copy()
+            filtered_df['product_id'] = filtered_df.apply(
+                lambda row: f'<a href="{row["buying_url"]}" target="_blank" style="color: #1f77b4; text-decoration: underline;">{row["product_id"]}</a>' 
+                if pd.notna(row['buying_url']) and row['buying_url'] != '' 
+                else str(row['product_id']), 
+                axis=1
+            )
+
         st.write(f"Showing {len(filtered_df)} of {len(st.session_state.df)} rows")
 
         # Render with HTML so that line breaks are preserved and cells have padding
@@ -165,6 +175,14 @@ with tab1:
                 position: sticky;
                 top: 0;
                 z-index: 10;
+            }
+            .fullwidth-table a {
+                color: #1f77b4 !important;
+                text-decoration: underline;
+                font-weight: 500;
+            }
+            .fullwidth-table a:hover {
+                color: #0d5a9e !important;
             }
             </style>
             """,
@@ -372,6 +390,14 @@ with tab2:
                 position: sticky;
                 top: 0;
                 z-index: 10;
+            }
+            .fullwidth-table a {
+                color: #1f77b4 !important;
+                text-decoration: underline;
+                font-weight: 500;
+            }
+            .fullwidth-table a:hover {
+                color: #0d5a9e !important;
             }
             </style>
             """,
