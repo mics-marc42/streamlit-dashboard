@@ -22,6 +22,7 @@ st.markdown("""
 tab1, tab2 = st.tabs(["PT order tracker", "Agent efficiency tracker"])
 
 query = """
+
 With campaign as (
   SELECT id cam_id, 
     platform,
@@ -39,12 +40,14 @@ product as (
     JSON_VALUE(pb.procurement_props, '$.ecommerce_platform') product_platform,
     JSON_VALUE(pb.procurement_props, '$.new_user_blocked_seats') new_user_seats,
     pb.procurement_props,
+    JSON_VALUE(pbi.procurement_props, '$.buying_url') as buying_url,
     quantity,
   FROM opa_hybrid.product_bundle pb
   LEFT JOIN `opa_hybrid.product_bundle_item` pbi
   ON pb.id = pbi.product_bundle_id
   LEFT JOIN opa_hybrid.product p 
   ON pbi.product_id = p.id
+  order by 3 desc
 ), 
 collab as ( 
   SELECT product_bundle_id, COUNTIF(invite_stage = 'ACCEPTED') as acceptance, 
@@ -61,6 +64,7 @@ final_data as (
     CAST(daily_limit as INT64) as daily_limit, 
     product_platform, 
     quantity, acceptance,
+    buying_url,
     CAST(new_user_seats as INT64) new_user_seats
   FROM campaign cam
   LEFT JOIN product as p
@@ -71,6 +75,7 @@ final_data as (
 )
 SELECT product_id, 
   product_platform,
+  MAX(buying_url) as buying_url,
   SUM(daily_limit) as daily_limit,
   SUM(acceptance) as accepted_yesterday,
   SUM(new_user_seats) as new_user_seats,
