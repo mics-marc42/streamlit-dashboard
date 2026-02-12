@@ -124,6 +124,10 @@ with tab1:
             ]
         
         filtered_df = filtered_df.reset_index(drop=True)
+        
+        # Sort by daily_limit in ascending order
+        if 'daily_limit' in filtered_df.columns:
+            filtered_df = filtered_df.sort_values('daily_limit', ascending=True).reset_index(drop=True)
 
         st.write(f"Showing {len(filtered_df)} of {len(st.session_state.df)} rows")
 
