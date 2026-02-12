@@ -484,7 +484,7 @@ UNION ALL(
             .fullwidth-table th,
             .fullwidth-table td {
                 padding: 0.25rem 0.75rem;
-                text-align: left;
+                text-align: center;
                 vertical-align: top;
                 white-space: pre-wrap;
                 word-wrap: break-word;
