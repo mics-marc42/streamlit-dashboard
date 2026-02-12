@@ -163,28 +163,24 @@ with tab1:
         
         # Apply numeric filters
         if 'daily_limit' in filtered_df.columns:
-            filtered_df = filtered_df[
-                (filtered_df['daily_limit'].fillna(0) >= daily_limit_min) &
-                ((daily_limit_max is None) | (filtered_df['daily_limit'].fillna(0) <= daily_limit_max))
-            ]
+            filtered_df = filtered_df[filtered_df['daily_limit'].fillna(0) >= daily_limit_min]
+            if daily_limit_max is not None:
+                filtered_df = filtered_df[filtered_df['daily_limit'].fillna(0) <= daily_limit_max]
         
         if 'new_user_seats' in filtered_df.columns:
-            filtered_df = filtered_df[
-                (filtered_df['new_user_seats'].fillna(0) >= new_user_seats_min) &
-                ((new_user_seats_max is None) | (filtered_df['new_user_seats'].fillna(0) <= new_user_seats_max))
-            ]
+            filtered_df = filtered_df[filtered_df['new_user_seats'].fillna(0) >= new_user_seats_min]
+            if new_user_seats_max is not None:
+                filtered_df = filtered_df[filtered_df['new_user_seats'].fillna(0) <= new_user_seats_max]
         
         if 'total_acceptances' in filtered_df.columns:
-            filtered_df = filtered_df[
-                (filtered_df['total_acceptances'].fillna(0) >= total_acceptances_min) &
-                ((total_acceptances_max is None) | (filtered_df['total_acceptances'].fillna(0) <= total_acceptances_max))
-            ]
+            filtered_df = filtered_df[filtered_df['total_acceptances'].fillna(0) >= total_acceptances_min]
+            if total_acceptances_max is not None:
+                filtered_df = filtered_df[filtered_df['total_acceptances'].fillna(0) <= total_acceptances_max]
         
         if 'total_quantity' in filtered_df.columns:
-            filtered_df = filtered_df[
-                (filtered_df['total_quantity'].fillna(0) >= total_quantity_min) &
-                ((total_quantity_max is None) | (filtered_df['total_quantity'].fillna(0) <= total_quantity_max))
-            ]
+            filtered_df = filtered_df[filtered_df['total_quantity'].fillna(0) >= total_quantity_min]
+            if total_quantity_max is not None:
+                filtered_df = filtered_df[filtered_df['total_quantity'].fillna(0) <= total_quantity_max]
         
         filtered_df = filtered_df.reset_index(drop=True)
         
