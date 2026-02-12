@@ -19,7 +19,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-tab1, tab2 = st.tabs(["PT order tracker", "Agent efficiency tracker"])
+tab1, tab2, tab3 = st.tabs(["PT order tracker", "Agent efficiency tracker", "Daily pending evals"])
 
 query = """
 
@@ -406,4 +406,107 @@ with tab2:
             unsafe_allow_html=True,
         )
 
+        st.markdown(f'<div class="fullwidth-table">{html_table}</div>', unsafe_allow_html=True)
+
+with tab3:
+    sample_query = """
+   WITH subs AS (
+  SELECT
+    s.id AS subm_id,
+    collaboration_id,
+    deliverable_id,
+    s.created_at AS subm_date,
+    content_type,
+    CASE WHEN JSON_VALUE(cam.extras, '$.is_auto_review_enabled') = 'true' THEN True ELSE false END as auto_review,
+  FROM opa_hybrid.submission s
+  LEFT JOIN opa_hybrid.deliverable d
+  ON s.deliverable_id = d.id
+  LEFT JOIN opa_hybrid.campaign cam
+  ON s.campaign_id = cam.id
+  WHERE review_stage = 'PENDING'
+  AND stage in ("LIVE", "PAUSED")
+),
+pop AS (
+  SELECT
+    c.id AS collaboration_id,
+  FROM opa_hybrid.collaboration c
+  LEFT JOIN opa_hybrid.campaign cam
+  ON c.campaign_id = cam.id
+  WHERE platform IN ('product_trials', 'instagram_and_product_trials')
+  AND pop_review_stage = "PENDING"
+  AND stage in ("LIVE", "PAUSED")
+)
+SELECT * FROM (
+  SELECT content_type, 
+    COUNT(DISTINCT IF(content_type = 'review' AND subs.auto_review = TRUE, subm_id, null)) as auto_submissions,
+    COUNT(DISTINCT IF((subs.auto_review = FALSE) OR (content_type != 'review' AND subs.auto_review = FALSE) OR (content_type = 'review' AND subs.auto_review = FALSE), subm_id, null)) as manual_submission_pending,
+  from subs
+  GROUP BY 1
+)
+UNION ALL(
+  SELECT 'POP' as content_type,
+  0 as auto_submissions,
+  COUNT(DISTINCT collaboration_id) as Manual_submission_pending
+  FROM pop
+  GROUP BY 1
+)
+"""
+    
+    if 'df3' not in st.session_state:
+        try:
+            with st.spinner("Executing query..."):
+                st.session_state.df3 = query_bigquery(sample_query)
+                st.success(f"Query executed successfully! Found {len(st.session_state.df3)} rows.")
+        except Exception as e:
+            st.error(f"Error executing query: {str(e)}")
+            st.session_state.df3 = pd.DataFrame()
+    
+    if not st.session_state.df3.empty:
+        filtered_df3 = st.session_state.df3.reset_index(drop=True)
+        
+        st.write(f"Showing {len(filtered_df3)} rows")
+        
+        # Render with HTML so that line breaks are respected reliably
+        html_table = filtered_df3.to_html(escape=False).replace("\\n", "<br>")
+        
+        st.markdown(
+            """
+            <style>
+            .fullwidth-table {
+                max-height: 70vh;
+                overflow-y: auto;
+                overflow-x: auto;
+            }
+            .fullwidth-table table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .fullwidth-table th,
+            .fullwidth-table td {
+                padding: 0.25rem 0.75rem;
+                text-align: left;
+                vertical-align: top;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+            .fullwidth-table th {
+                background-color: #3a3a3a;
+                font-weight: 600;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+            .fullwidth-table a {
+                color: #1f77b4 !important;
+                text-decoration: underline;
+                font-weight: 500;
+            }
+            .fullwidth-table a:hover {
+                color: #0d5a9e !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+        
         st.markdown(f'<div class="fullwidth-table">{html_table}</div>', unsafe_allow_html=True)
