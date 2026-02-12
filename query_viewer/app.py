@@ -128,6 +128,64 @@ with tab1:
                 )
             ]
         
+        # Numeric column filters
+        st.subheader("Numeric Filters")
+        num_col1, num_col2, num_col3, num_col4 = st.columns(4)
+        
+        daily_limit_min = 0
+        daily_limit_max = None
+        new_user_seats_min = 0
+        new_user_seats_max = None
+        total_acceptances_min = 0
+        total_acceptances_max = None
+        total_quantity_min = 0
+        total_quantity_max = None
+        
+        with num_col1:
+            if 'daily_limit' in filtered_df.columns:
+                daily_limit_min = st.number_input("Daily Limit (Min):", min_value=0, value=0, step=1, key="daily_limit_min")
+                daily_limit_max = st.number_input("Daily Limit (Max):", min_value=0, value=None, step=1, key="daily_limit_max")
+        
+        with num_col2:
+            if 'new_user_seats' in filtered_df.columns:
+                new_user_seats_min = st.number_input("New User Seats (Min):", min_value=0, value=0, step=1, key="new_user_seats_min")
+                new_user_seats_max = st.number_input("New User Seats (Max):", min_value=0, value=None, step=1, key="new_user_seats_max")
+        
+        with num_col3:
+            if 'total_acceptances' in filtered_df.columns:
+                total_acceptances_min = st.number_input("Total Acceptances (Min):", min_value=0, value=0, step=1, key="total_acceptances_min")
+                total_acceptances_max = st.number_input("Total Acceptances (Max):", min_value=0, value=None, step=1, key="total_acceptances_max")
+        
+        with num_col4:
+            if 'total_quantity' in filtered_df.columns:
+                total_quantity_min = st.number_input("Total Quantity (Min):", min_value=0, value=0, step=1, key="total_quantity_min")
+                total_quantity_max = st.number_input("Total Quantity (Max):", min_value=0, value=None, step=1, key="total_quantity_max")
+        
+        # Apply numeric filters
+        if 'daily_limit' in filtered_df.columns:
+            filtered_df = filtered_df[
+                (filtered_df['daily_limit'].fillna(0) >= daily_limit_min) &
+                ((daily_limit_max is None) | (filtered_df['daily_limit'].fillna(0) <= daily_limit_max))
+            ]
+        
+        if 'new_user_seats' in filtered_df.columns:
+            filtered_df = filtered_df[
+                (filtered_df['new_user_seats'].fillna(0) >= new_user_seats_min) &
+                ((new_user_seats_max is None) | (filtered_df['new_user_seats'].fillna(0) <= new_user_seats_max))
+            ]
+        
+        if 'total_acceptances' in filtered_df.columns:
+            filtered_df = filtered_df[
+                (filtered_df['total_acceptances'].fillna(0) >= total_acceptances_min) &
+                ((total_acceptances_max is None) | (filtered_df['total_acceptances'].fillna(0) <= total_acceptances_max))
+            ]
+        
+        if 'total_quantity' in filtered_df.columns:
+            filtered_df = filtered_df[
+                (filtered_df['total_quantity'].fillna(0) >= total_quantity_min) &
+                ((total_quantity_max is None) | (filtered_df['total_quantity'].fillna(0) <= total_quantity_max))
+            ]
+        
         filtered_df = filtered_df.reset_index(drop=True)
         
         # Sort by daily_limit in ascending order
