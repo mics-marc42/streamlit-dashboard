@@ -143,6 +143,8 @@ with tab1:
                 else str(row['product_id']), 
                 axis=1
             )
+            # Remove buying_url column from display
+            filtered_df = filtered_df.drop(columns=['buying_url'])
 
         st.write(f"Showing {len(filtered_df)} of {len(st.session_state.df)} rows")
 
